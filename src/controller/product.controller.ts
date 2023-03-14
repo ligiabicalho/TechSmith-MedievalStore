@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import statusCodes from '../statusCode';
-import ProductService from '../services/products.service';
+import ProductService from '../services/product.service';
 import 'express-async-errors'; // faz o tratamento de erros disparar diretamente o middleware de erro sem a necessidade de colocar try/catch
 
-class BooksController {
+class ProductController {
   constructor(private productService = new ProductService()) { }
 
   public getAll = async (_req: Request, res: Response) => {
@@ -18,4 +18,4 @@ class BooksController {
   };
 }
 
-export default BooksController;
+export default ProductController;

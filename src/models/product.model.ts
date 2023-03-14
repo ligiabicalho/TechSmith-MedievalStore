@@ -33,7 +33,6 @@ export default class ProductModel {
     );
     const newProduct: Product = await this.getById(insertId);
     
-    console.log('Model insert', insertId, newProduct);
     return { id: insertId, ...newProduct };
   }
 }
