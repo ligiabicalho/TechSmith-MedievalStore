@@ -9,6 +9,13 @@ export default class ProductModel {
     this.connection = connection;
   }
 
+  public async getAll(): Promise<Product[]> {
+    const [products] = await this.connection.execute<(
+    Product & RowDataPacket)[]>('SELECT * FROM Trybesmith.products',
+      );
+    return products;
+  }
+
   public async getById(id: number): Promise<Product> {
     const [[product]] = await this.connection.execute<(
     Product & RowDataPacket)[]>(
