@@ -17,3 +17,9 @@ export interface Payload {
   id: number;
   username: string;
 }
+
+export interface Order {
+  id: number;
+  userId: number;
+  productsIds: number[];
+}
