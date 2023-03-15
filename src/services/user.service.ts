@@ -1,15 +1,24 @@
 import UserModel from '../models/user.model';
-import { Payload, User } from '../interfaces';
+import { Payload, IUser, UserLogin } from '../interfaces';
 
 class UserService {
-  public model: UserModel;
+  public userModel: UserModel;
 
   constructor() {
-    this.model = new UserModel();
+    this.userModel = new UserModel();
   }
 
-  public async create(user: User): Promise<Payload> {
-    const payload = await this.model.create(user);
+  public async getByUsername({ username, password }: UserLogin) {
+    const user = await this.userModel.getByUsername(username);
+    if (!user || user.password !== password) {
+      // qndo não envia user no retorno, o TS reclama no controller linha 20. Pq??
+      return { error: 401, message: 'Username or password invalid', user };
+    }
+    return { error: null, user };
+  }
+
+  public async create(user: IUser): Promise<Payload> {
+    const payload = await this.userModel.create(user);
     return payload;
   }
 }

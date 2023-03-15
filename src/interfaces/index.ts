@@ -5,12 +5,18 @@ export interface Product {
   orderId?: number;
 }
 
-export interface User {
-  id?: number;
+export interface UserLogin {
   username: string;
+  password: string;
+}
+
+export interface IUser extends UserLogin {
   vocation: string;
   level: number;
-  password: string;
+}
+
+export interface User extends IUser {
+  id: number;   
 }
 
 export interface Payload {
