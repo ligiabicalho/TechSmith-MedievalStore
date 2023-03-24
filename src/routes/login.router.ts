@@ -5,6 +5,7 @@ const router = Router();
 
 const loginController = new LoginController();
 
-router.post('/', loginController.login);
+// callback para manter o contexto do this do Controller.
+router.post('/', (req, res) => loginController.login(req, res));
 
 export default router;

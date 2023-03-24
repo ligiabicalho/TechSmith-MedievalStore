@@ -2,6 +2,7 @@ import ProductModel from '../models/product.model';
 import { Product } from '../interfaces';
 
 class ProductService {
+  // declarando a propriedade model, com tipo da class ProductModel;
   public model: ProductModel;
 
   constructor() {

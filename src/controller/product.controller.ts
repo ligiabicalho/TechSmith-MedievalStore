@@ -4,7 +4,11 @@ import ProductService from '../services/product.service';
 import 'express-async-errors'; // faz o tratamento de erros disparar diretamente o middleware de erro sem a necessidade de colocar try/catch
 
 class ProductController {
-  constructor(private productService = new ProductService()) { }
+  private productService: ProductService;
+
+  constructor(productService = new ProductService()) { 
+    this.productService = productService;
+  }
 
   public getAll = async (_req: Request, res: Response) => {
     const products = await this.productService.getAll();
