@@ -1,24 +1,24 @@
 import { Request, Response, NextFunction } from 'express';
 
-async function middlewareError(err: Error, _req: Request, res: Response, _next: NextFunction) {
-  const { name, message } = err;
-  switch (name) {
-    case 'BadRequestError':
-      res.status(400).json({ message });
-      break;
-    case 'ValidationError':
-      res.status(400).json({ message });
-      break;
-    case 'NotFoundError':
-      res.status(404).json({ message });
-      break;
-    case 'ConflictError':
-      res.status(409).json({ message });
-      break;
-    default:
-      console.error(err);
-      res.sendStatus(500);
+export default class MiddlewareError {
+  static handle(error: Error, req: Request, res: Response, next: NextFunction) {
+    const { name, message } = error;
+    switch (name) {
+      case 'BadRequestError':
+        res.status(400).json({ message });
+        break;
+      case 'ValidationError':
+        res.status(400).json({ message });
+        break;
+      case 'NotFoundError':
+        res.status(404).json({ message });
+        break;
+      case 'ConflictError':
+        res.status(409).json({ message });
+        break;
+      default:
+        res.status(500).json({ message: error.message });
+        next();
+    }
   }
 }
-
-export default middlewareError;
