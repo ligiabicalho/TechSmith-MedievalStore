@@ -14,6 +14,6 @@ app.use('/users', UserRouter);
 app.use('/orders', OrderRouter);
 app.use('/login', isRequiredUsername, isRequiredPassword, LoginRouter);
 
-app.use(middlewareError);
+app.use(middlewareError.handle);
 
 export default app;
