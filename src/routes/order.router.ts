@@ -9,6 +9,6 @@ const router = Router();
 const service = new OrderService();
 const orderController = new OrderController(service);
 
-router.get('/', (req, res) => orderController.getAll(req, res));
+router.get('/', (req, res, next) => orderController.getAll(req, res, next));
 
 export default router;

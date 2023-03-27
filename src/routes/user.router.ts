@@ -7,6 +7,7 @@ const router = Router();
 const service = new UserService();
 const userController = new UserController(service);
 
-router.post('/', (req, res) => userController.create(req, res));
+// se não usar callback, controller deve usar arrow functions nos métodos.
+router.post('/', (req, res, next) => userController.create(req, res, next));
 
 export default router;
