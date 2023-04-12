@@ -1,8 +1,19 @@
-export interface Product {
-  id?: number;
+import { JwtPayload } from 'jsonwebtoken';
+
+export interface ProductId { // separar e extender
+  id: number;
+}
+
+export interface ProductCreateReq { // separar e extender
   name: string;
   amount: string;
-  orderId?: number;
+}
+
+export interface ProductCreateRes extends ProductId, ProductCreateReq {
+}
+
+export interface Product extends ProductCreateRes { 
+  orderId: number;
 }
 
 export interface UserLogin {
@@ -24,8 +35,23 @@ export interface Payload {
   username: string;
 }
 
-export interface Order {
+export interface Decoded extends JwtPayload {
   id: number;
+  username: string;
+  iat: number;
+}
+
+export interface OrderReq {
+  ProductsIds: number[];
+}
+
+export interface OrderRes extends OrderReq {
   userId: number;
-  productsIds: number[];
+}
+
+export interface OrderId {
+  id: number;
+}
+
+export interface Order extends OrderRes, OrderId {
 }

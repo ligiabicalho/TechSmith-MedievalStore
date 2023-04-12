@@ -1,16 +1,31 @@
 import OrderModel from '../models/order.model';
 import { Order } from '../interfaces';
+import ProductModel from '../models/product.model';
 
 class OrderService {
-  public model: OrderModel;
+  public orderModel: OrderModel;
+
+  public productModel: ProductModel;
 
   constructor() {
-    this.model = new OrderModel();
+    this.orderModel = new OrderModel();
+    this.productModel = new ProductModel();
   }
 
-  public async getAll(): Promise<Order[]> {
-    const orders = await this.model.getAll();
+  async getAll(): Promise<Order[]> {
+    const orders = await this.orderModel.getAll();
     return orders;
+  }
+
+  async create(userId: number): Promise<number> {
+    const newOrderId = await this.orderModel.create(userId);
+    return newOrderId;
+  }
+
+  async updateProductsOrder(productsIds: number[], orderId: number): Promise<number[]> {
+    await Promise.all(productsIds.map(async (productId: number) => 
+      this.productModel.update(productId, orderId)));
+    return productsIds;
   }
 }
 

@@ -17,6 +17,14 @@ export default class UserModel {
     return user;
   }
 
+  public async getById(id: number): Promise<User> {
+    const [[user]] = await this.connection.execute<(
+    User & RowDataPacket)[]>('SELECT id, username FROM Trybesmith.users WHERE id = ?',
+      [id],
+      );
+    return user;
+  }
+
   public async create(user: IUser): Promise<Payload> {
     const { username, vocation, level, password } = user;
     const [{ insertId }] = await this.connection.execute<ResultSetHeader>(

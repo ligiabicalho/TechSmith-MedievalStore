@@ -15,8 +15,8 @@ class LoginController {
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const userLogin: UserLogin = req.body;
-      const { error, message, user } = await this.userService.getByUsername(userLogin);
-      if (error) res.status(error).json({ message });
+      const { error, user } = await this.userService.getByUsername(userLogin);
+      if (error) next({ statusCodes: error.status, message: error.message });
       
       const payload: Payload = { id: user.id, username: userLogin.username };
       const token: string = generateToken(payload);
