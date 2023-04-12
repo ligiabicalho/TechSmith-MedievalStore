@@ -2,7 +2,7 @@ import { Router } from 'express';
 import OrderController from '../controller/order.controller';
 import OrderService from '../services/order.service';
 import validateToken from '../auth/validateToken';
-import isValidProdcutsIds from '../middleware/productValidate';
+import { isValidProdcutsIds } from '../middleware/productValidate';
 import verifyRequiredFields from '../middleware/verifyRequiredFields';
 
 const router = Router();

@@ -3,29 +3,38 @@ import Joi from 'joi';
 import StatusCodes from '../statusCode';
 
 const schemaProductsIds = Joi.object({
-  productsIds: Joi.array(),
+  productsIds: Joi.array().items(Joi.number()).min(1)
+    .required()
+    .messages({
+      'array.min': '"productsIds" must include only numbers',
+    }),
 });
 
-const schemaProductsIdsArrNum = Joi.object({
-  productsIds: Joi.array().items(Joi.number().required()),
+const schemaProduct = Joi.object({
+  name: Joi.string().min(3),
+  amount: Joi.string().min(3),
 });
 
 const isValidProdcutsIds = (req: Request, _res: Response, next: NextFunction) => {
   const { productsIds } = req.body;
-  const isArray = schemaProductsIds.validate({ productsIds });
-  if (isArray.error) {
+  const { error } = schemaProductsIds.validate({ productsIds });
+  if (error) {
+    return next({ 
+      statusCode: StatusCodes.UNPROCESSABLE,  
+      message: error.message,
+    });
+  } next();
+};
+
+const isValidProdcut = (req: Request, _res: Response, next: NextFunction) => {
+  const { error } = schemaProduct.validate(req.body);
+  if (error) {
     return next({ 
       statusCode: StatusCodes.UNPROCESSABLE, 
-      message: '"productsIds" must be an array' });
-  }
-  const isArrNumber = schemaProductsIdsArrNum.validate({ productsIds });
-  if (isArrNumber.error) {
-    return next({ 
-      statusCode: StatusCodes.UNPROCESSABLE, 
-      message: '"productsIds" must include only numbers' });
+      message: error.message });
   }
 
   next();
 };
 
-export default isValidProdcutsIds;
+export { isValidProdcutsIds, isValidProdcut };
