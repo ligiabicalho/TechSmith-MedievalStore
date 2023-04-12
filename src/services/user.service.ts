@@ -11,13 +11,14 @@ class UserService {
 
   async getByUsername({ username, password }: UserLogin) {
     const user = await this.userModel.getByUsername(username);
+
     if (!user || user.password !== password) {
-      // qndo não envia user no retorno, o TS reclama no controller linha 20. Pq??
-      return { error: { status: StatusCodes.UNAUTHORIZED, 
-        message: 'Username or password invalid' },
-      user };
-    }
-    return { error: null, user };
+      return { 
+        error: { status: StatusCodes.UNAUTHORIZED, 
+          message: 'Username or password invalid' },
+        user, 
+      };
+    } return { error: null, user };
   }
 
   async getById(id: number) {
@@ -26,8 +27,7 @@ class UserService {
       return { error: { status: StatusCodes.UNAUTHORIZED, 
         message: 'Id invalid' },
       user };
-    }
-    return { error: null, user };
+    } return { error: null, user };
   }
 
   async create(user: IUser): Promise<Payload> {

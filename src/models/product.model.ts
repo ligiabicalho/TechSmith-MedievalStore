@@ -1,10 +1,10 @@
 import { Pool, RowDataPacket, ResultSetHeader } from 'mysql2/promise';
 import connection from './connection';
-import { OrderId, Product, 
-  ProductCreateReq, ProductCreateRes } from '../interfaces';
+import { Product, 
+  ProductCreateReq } from '../interfaces';
 
 export default class ProductModel {
-  private connection: Pool; // pq precisa colocar public/private??
+  private connection: Pool;
 
   constructor() {
     this.connection = connection;
@@ -39,7 +39,6 @@ export default class ProductModel {
   }
 
   async update(productId: number, updateOrderId: number): Promise<Product | void> {
-    console.log('product update - prodId:', productId, 'order id:', updateOrderId);
     const result = await this.connection.execute<ResultSetHeader>(
       'UPDATE Trybesmith.products SET order_id = ? WHERE id = ?',
       [updateOrderId, productId],

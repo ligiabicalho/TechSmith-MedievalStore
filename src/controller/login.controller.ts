@@ -16,7 +16,9 @@ class LoginController {
     try {
       const userLogin: UserLogin = req.body;
       const { error, user } = await this.userService.getByUsername(userLogin);
-      if (error) next({ statusCodes: error.status, message: error.message });
+      if (error) {
+        return next({ statusCode: error.status, message: error.message });
+      }
       
       const payload: Payload = { id: user.id, username: userLogin.username };
       const token: string = generateToken(payload);

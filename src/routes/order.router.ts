@@ -2,7 +2,8 @@ import { Router } from 'express';
 import OrderController from '../controller/order.controller';
 import OrderService from '../services/order.service';
 import validateToken from '../auth/validateToken';
-import { isRequiredProductsIds, isValidProdcutsIds } from '../middleware/productValidate';
+import isValidProdcutsIds from '../middleware/productValidate';
+import verifyRequiredFields from '../middleware/verifyRequiredFields';
 
 const router = Router();
 
@@ -15,7 +16,7 @@ router.get('/', (req, res, next) => orderController.getAll(req, res, next));
 router.post(
   '/', 
   validateToken,
-  isRequiredProductsIds,
+  verifyRequiredFields('order'),
   isValidProdcutsIds,
   (req, res, next) => orderController.create(req, res, next),
 );
